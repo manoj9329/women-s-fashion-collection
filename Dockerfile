@@ -1,15 +1,18 @@
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:21-jdk-alpine AS build
 
 WORKDIR /app
 
-COPY pom.xml .
+COPY backend/pom.xml .
+COPY backend/src ./src
 
-COPY src ./src
+RUN apk add --no-cache maven && mvn clean package -DskipTests
 
-RUN apt-get update && apt-get install -y maven
+FROM eclipse-temurin:21-jre-alpine
 
-RUN mvn clean package -DskipTests
+WORKDIR /app
+
+COPY --from=build /app/target/womens-fashion-collection-1.0.0.jar app.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/womens-fashion-collection-1.0.0.jar"]
+CMD ["java", "-jar", "app.jar"]
