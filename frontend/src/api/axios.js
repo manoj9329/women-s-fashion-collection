@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: '/api' })
+const baseURL = 'https://women-s-fashion-collectionss.onrender.com/api'
+
+const api = axios.create({ baseURL })
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('wfc_token')
