@@ -3,9 +3,15 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const AppContext = createContext()
 
 export function AppProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('wfc_user')) } catch { return null }
-  })
+ const [user, setUser] = useState(() => {
+  try {
+    const stored = localStorage.getItem('wfc_user')
+    if (!stored) return null
+    const parsed = JSON.parse(stored)
+    if (!parsed || !parsed.email || !parsed.role) return null
+    return parsed
+  } catch { return null }
+})
   const [cart, setCart] = useState([])
 
   const login = (userData, token) => {
