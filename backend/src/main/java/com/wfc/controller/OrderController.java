@@ -31,15 +31,4 @@ public class OrderController {
     public ResponseEntity<List<OrderDto.Response>> myOrders(@AuthenticationPrincipal UserDetails user) {
         return ResponseEntity.ok(orderService.getUserOrders(user.getUsername()));
     }
-
-    @PostMapping("/cod")
-    public ResponseEntity<OrderDto.Response> createCODOrder(
-            @AuthenticationPrincipal UserDetails user,
-            @RequestBody OrderDto.CreateRequest req) {
-        try {
-            return ResponseEntity.ok(orderService.createCODOrder(user.getUsername(), req));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 }

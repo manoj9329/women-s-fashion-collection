@@ -101,39 +101,6 @@ public class OrderService {
         return toResponse(orderRepository.save(order));
     }
 
-    @Transactional
-    public OrderDto.Response createCODOrder(String email, OrderDto.CreateRequest req) {
-        User user = userRepository.findByEmail(email).orElseThrow();
-
-        List<OrderItem> items = new ArrayList<>();
-        for (OrderDto.ItemRequest itemReq : req.getItems()) {
-            Product p = productRepository.findById(itemReq.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
-            OrderItem item = OrderItem.builder()
-                    .product(p).quantity(itemReq.getQuantity())
-                    .size(itemReq.getSize()).color(itemReq.getColor())
-                    .unitPrice(p.getPrice()).build();
-            items.add(item);
-        }
-
-        BigDecimal total = items.stream()
-                .map(i -> i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        if (total.compareTo(new BigDecimal("1999")) < 0)
-            total = total.add(new BigDecimal("99"));
-
-        Order order = Order.builder()
-                .user(user).totalAmount(total)
-                .razorpayOrderId("COD-" + System.currentTimeMillis())
-                .shippingAddress(req.getShippingAddress())
-                .status(Order.Status.PENDING).build();
-        order.setItems(items);
-        Order saved = orderRepository.save(order);
-        for (OrderItem i : items) i.setOrder(saved);
-        return toResponse(orderRepository.save(order));
-    }
-
     private OrderDto.Response toResponse(Order o) {
         List<OrderDto.ItemResponse> items = o.getItems() == null ? List.of() :
                 o.getItems().stream().map(i -> OrderDto.ItemResponse.builder()
@@ -147,5 +114,7 @@ public class OrderService {
                 .status(o.getStatus().name()).razorpayOrderId(o.getRazorpayOrderId())
                 .shippingAddress(o.getShippingAddress()).createdAt(o.getCreatedAt())
                 .build();
+    
+        
     }
 }
