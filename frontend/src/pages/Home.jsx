@@ -70,7 +70,7 @@ export default function Home() {
       </section>
 
       {/* WHATSAPP BUTTON */}
-      <a href="https://wa.me/919876543210?text=Hi! I'm interested in your fashion collection." target="_blank" rel="noreferrer" style={styles.waBtn} title="Order on WhatsApp">
+      <a href="https://wa.me/917892441806?text=Hi! I'm interested in your fashion collection." target="_blank" rel="noreferrer" style={styles.waBtn} title="Order on WhatsApp">
         <span style={{ fontSize: '1.4rem' }}>💬</span>
         <span style={{ fontSize: '.72rem', letterSpacing: '.1em', fontWeight: 500 }}>Order on WhatsApp</span>
       </a>

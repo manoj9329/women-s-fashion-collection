@@ -1,18 +1,26 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 const AppContext = createContext()
 
 export function AppProvider({ children }) {
- const [user, setUser] = useState(() => {
-  try {
-    const stored = localStorage.getItem('wfc_user')
-    if (!stored) return null
-    const parsed = JSON.parse(stored)
-    if (!parsed || !parsed.email || !parsed.role) return null
-    return parsed
-  } catch { return null }
-})
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem('wfc_user')
+      if (!stored) return null
+      const parsed = JSON.parse(stored)
+      if (!parsed || !parsed.email || !parsed.role) return null
+      return parsed
+    } catch { return null }
+  })
+
   const [cart, setCart] = useState([])
+
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const stored = localStorage.getItem('wfc_wishlist')
+      return stored ? JSON.parse(stored) : []
+    } catch { return [] }
+  })
 
   const login = (userData, token) => {
     localStorage.setItem('wfc_token', token)
@@ -44,11 +52,26 @@ export function AppProvider({ children }) {
 
   const clearCart = () => setCart([])
 
+  const toggleWishlist = (product) => {
+    setWishlist(prev => {
+      const exists = prev.find(p => p.id === product.id)
+      const updated = exists ? prev.filter(p => p.id !== product.id) : [...prev, product]
+      localStorage.setItem('wfc_wishlist', JSON.stringify(updated))
+      return updated
+    })
+  }
+
+  const isWishlisted = (productId) => wishlist.some(p => p.id === productId)
+
   const cartTotal = cart.reduce((s, i) => s + i.product.price * i.qty, 0)
   const cartCount = cart.reduce((s, i) => s + i.qty, 0)
 
   return (
-    <AppContext.Provider value={{ user, login, logout, cart, addToCart, removeFromCart, updateQty, clearCart, cartTotal, cartCount }}>
+    <AppContext.Provider value={{
+      user, login, logout,
+      cart, addToCart, removeFromCart, updateQty, clearCart, cartTotal, cartCount,
+      wishlist, toggleWishlist, isWishlisted
+    }}>
       {children}
     </AppContext.Provider>
   )

@@ -3,10 +3,9 @@ import { useApp } from '../context/AppContext'
 import { useState } from 'react'
 
 export default function Navbar() {
-  const { user, logout, cartCount } = useApp()
+  const { user, logout, cartCount, wishlist } = useApp()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
-
   const handleLogout = () => { logout(); navigate('/') }
 
   return (
@@ -19,6 +18,9 @@ export default function Navbar() {
         <div style={styles.links}>
           <Link to="/" style={styles.link}>Home</Link>
           <Link to="/shop" style={styles.link}>Shop</Link>
+          <Link to="/wishlist" style={styles.link}>
+  ❤️ Wishlist {wishlist.length > 0 && <span style={styles.badge}>{wishlist.length}</span>}
+</Link>
           {user && <Link to="/orders" style={styles.link}>My Orders</Link>}
           {user?.role === 'ADMIN' && <Link to="/admin" style={styles.link}>Admin</Link>}
           <span style={styles.cod}>✦ Cash on Delivery</span>
