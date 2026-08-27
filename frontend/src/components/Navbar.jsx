@@ -32,7 +32,7 @@ export default function Navbar() {
           </Link>
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={styles.userName}>Hi, {user.name.split(' ')[0]}</span>
+              <Link to="/profile" style={{ ...styles.userName, textDecoration: 'none' }}>👤 {user.name.split(' ')[0]}</Link>
               <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
             </div>
           ) : (

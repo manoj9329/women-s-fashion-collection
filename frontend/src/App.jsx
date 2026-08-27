@@ -11,6 +11,7 @@ import { Login, Register } from './pages/Auth'
 import Orders from './pages/Orders'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import Wishlist from './pages/Wishlist'
+import Profile from './pages/Profile'
 
 function ProtectedRoute({ children, adminOnly }) {
   const { user } = useApp()
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/orders" element={<ProtectedRoute><Orders/></ProtectedRoute>}/>
           <Route path="/wishlist" element={<Wishlist/>}/>
           <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard/></ProtectedRoute>}/>
+          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
         </Routes>
         <ToastContainer position="bottom-right" autoClose={2500}/>
       </BrowserRouter>
