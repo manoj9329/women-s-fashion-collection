@@ -45,6 +45,7 @@ public class ProductService {
                 .name(req.getName()).description(req.getDescription())
                 .price(req.getPrice()).originalPrice(req.getOriginalPrice())
                 .category(req.getCategory()).imageUrl(req.getImageUrl())
+                .images(req.getImages())
                 .sizes(req.getSizes()).colors(req.getColors())
                 .stock(req.getStock() != null ? req.getStock() : 0)
                 .badge(req.getBadge())
@@ -62,6 +63,7 @@ public class ProductService {
         p.setOriginalPrice(req.getOriginalPrice());
         p.setCategory(req.getCategory());
         p.setImageUrl(req.getImageUrl());
+        p.setImages(req.getImages());
         p.setSizes(req.getSizes());
         p.setColors(req.getColors());
         p.setStock(req.getStock() != null ? req.getStock() : p.getStock());
@@ -79,6 +81,7 @@ public class ProductService {
                 .id(p.getId()).name(p.getName()).description(p.getDescription())
                 .price(p.getPrice()).originalPrice(p.getOriginalPrice())
                 .category(p.getCategory()).imageUrl(p.getImageUrl())
+                .images(p.getImages())
                 .sizes(p.getSizes()).colors(p.getColors())
                 .stock(p.getStock()).badge(p.getBadge())
                 .status(p.getStatus().name()).createdAt(p.getCreatedAt())

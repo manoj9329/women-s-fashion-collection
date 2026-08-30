@@ -28,6 +28,10 @@ public class Product {
 
     @Column(name = "image_url")
     private String imageUrl;
+    @ElementCollection
+    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "image_url")
+    private List<String> images;
 
     @ElementCollection
     @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
@@ -76,6 +80,8 @@ public class Product {
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public List<String> getImages() { return images; }
+public void setImages(List<String> images) { this.images = images; }
 
     public static Builder builder() { return new Builder(); }
 
@@ -93,5 +99,6 @@ public class Product {
         public Builder badge(String v) { p.badge = v; return this; }
         public Builder status(Status v) { p.status = v; return this; }
         public Product build() { return p; }
+        public Builder images(List<String> v) { p.images = v; return this; }
     }
 }

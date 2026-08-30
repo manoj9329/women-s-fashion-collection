@@ -21,6 +21,7 @@ public class ProductDto {
         private Integer stock;
         private String badge;
         private String status;
+        private List<String> images;
 
         public String getName() { return name; }
         public void setName(String name) { this.name = name; }
@@ -44,6 +45,8 @@ public class ProductDto {
         public void setBadge(String badge) { this.badge = badge; }
         public String getStatus() { return status; }
         public void setStatus(String status) { this.status = status; }
+        public List<String> getImages() { return images; }
+        public void setImages(List<String> images) { this.images = images; }
     }
 
     public static class Response {
@@ -60,6 +63,7 @@ public class ProductDto {
         private String badge;
         private String status;
         private LocalDateTime createdAt;
+        private List<String> images;
 
         public Response() {}
 
@@ -76,6 +80,7 @@ public class ProductDto {
         public String getBadge() { return badge; }
         public String getStatus() { return status; }
         public LocalDateTime getCreatedAt() { return createdAt; }
+        public List<String> getImages() { return images; }
 
         public static Builder builder() { return new Builder(); }
         public static class Builder {
@@ -93,6 +98,7 @@ public class ProductDto {
             public Builder badge(String v) { r.badge = v; return this; }
             public Builder status(String v) { r.status = v; return this; }
             public Builder createdAt(LocalDateTime v) { r.createdAt = v; return this; }
+            public Builder images(List<String> v) { r.images = v; return this; }
             public Response build() { return r; }
         }
     }
